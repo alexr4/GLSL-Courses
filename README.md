@@ -10,8 +10,8 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * [ ] **chp1**: What is a shader and how it work
 * * [ ] GPU vs CPU computation
 * [ ] **chp2**: Discovering fragment shader : A world from 0 to 1
-* * [ ] Underlying concept of a fragment shader (macro, variable and main function)
-* * [ ] Main variable type in GLSL
+* * [x] Underlying concept of a fragment shader (macro, variable and main function)
+* * [x] Main variable type in GLSL
 * [ ] **chp3**: Programming fragment shader using Atom
 * * [ ] Install language-glsl package for shader programming highlight in Atom
 * * [ ] Install/using glsl-preview package for shader live programming in Atom
