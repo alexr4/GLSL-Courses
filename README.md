@@ -17,17 +17,18 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * * [x] Install/using glsl-preview package for shader live programming in Atom
 * * [x] Global uniform variable tu used with glsl-preview
 * [ ] **chp4**: Basic shaping function in GLSL
+* * [x] gl_FragCoord
 * * [ ] Comparision and interpolation using ```step``` and ```smoothstep```
 * * [ ] Basic maths function (sin, cosine, mod, fract...)
-* * [ ] Creating your own shaping function
-* [ ] **chp5**: Using color
-* * [ ] Color normalized system
-* * [ ] Converting from HSB to RGB system
-* * [ ] Using shaping function to create a gradient color
-* [ ] **chp6**: Drawing basic shapes with function
-* * [ ] Line
-* * [ ] Rectangle
-* * [ ] Ellipse
+* * [x] Creating your own shaping function
+* [X] **chp5**: Using color
+* * [X] Color normalized system
+* * [X] Converting from HSB to RGB system
+* * [x] Using shaping function to create a gradient color
+* [X] **chp6**: Drawing basic shapes with function
+* * [x] Line
+* * [x] Rectangle
+* * [x] Ellipse
 * [ ] **chp7**: Drawing complexe shape with function
 * * [ ] Polygon (3, 4, 5...edges)
 * * [ ] Modulationg radius
