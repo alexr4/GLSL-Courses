@@ -12,10 +12,10 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * [x] **chp2**: Discovering fragment shader : A world from 0 to 1
 * * [x] Underlying concept of a fragment shader (macro, variable and main function)
 * * [x] Main variable type in GLSL
-* [ ] **chp3**: Programming fragment shader using Atom
-* * [ ] Install language-glsl package for shader programming highlight in Atom
-* * [ ] Install/using glsl-preview package for shader live programming in Atom
-* * [ ] Global uniform variable tu used with glsl-preview
+* [x] **chp3**: Programming fragment shader using Atom
+* * [x] Install language-glsl package for shader programming highlight in Atom
+* * [x] Install/using glsl-preview package for shader live programming in Atom
+* * [x] Global uniform variable tu used with glsl-preview
 * [ ] **chp4**: Basic shaping function in GLSL
 * * [ ] Comparision and interpolation using ```step``` and ```smoothstep```
 * * [ ] Basic maths function (sin, cosine, mod, fract...)
