@@ -33,13 +33,12 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * * [x] Polygon (3, 4, 5...edges)
 * * [x] Modulationg radius
 * [ ] **chp8**: Matrix transformation : Rotate, translate and scale
-* * [ ] Translation
-* * [ ] Rotation
-* * [ ] Scale
-* * [ ] Simple sin wave
+* * [X] Translation
+* * [X] Rotation
+* * [X] Scale
 * [ ] **chp9**: Easing animation
-* * [ ] Using shaping function to ease your animations
-* [ ] **chp10**: Pattern : multiplying you shapes
+* * [x] Using shaping function to ease your animations
+* [ ] **chp10**: Pattern : multiplying your shapes
 * * [ ] Creating a grid using ```fract``` and ```floor```
 * * [ ] Aspect ratio conservation
 * * [ ] Manipulating the pattern using cell index
