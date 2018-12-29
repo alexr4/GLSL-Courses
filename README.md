@@ -29,10 +29,10 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * * [x] Line
 * * [x] Rectangle
 * * [x] Ellipse
-* [ ] **chp7**: Drawing complexe shape with function
-* * [ ] Polygon (3, 4, 5...edges)
-* * [ ] Modulationg radius
-* [ ] **chp8**: Matrix transofmration : Rotate, translate and scale
+* [x] **chp7**: Drawing complexe shape with function
+* * [x] Polygon (3, 4, 5...edges)
+* * [x] Modulationg radius
+* [ ] **chp8**: Matrix transformation : Rotate, translate and scale
 * * [ ] Translation
 * * [ ] Rotation
 * * [ ] Scale
