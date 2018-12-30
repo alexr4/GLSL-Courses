@@ -49,16 +49,27 @@ vec2 scale(vec2 st, vec2 scale){
   return st;
 }
 
-float inoutExp(float value){
-  value *= 2.0;
+float inoutexp(float value){
+  float nvalue = value * 2.0;
   float inc = 1.0;
   float eased = 0.0;
   float stepper = step(1.0, value);
-  eased += (0.5 * value * value) * (1.0 - stepper);
+  eased += (0.5 * pow(2.0, 10.0 * (nvalue - 1.0))) * (1.0 - stepper);
   value--;
-  eased += (-0.5 * (value * (value - 2.0) - 1.0)) * stepper;
+  eased += (0.5 * (-pow(2.0, -10.0 * (nvalue - 1.0)) + 2.0)) * stepper;
 
-  return eased;
+  return (value == 0.0 || value == 1.0) ? value : clamp(eased, 0.0, 1.0);
+}
+
+float inoutquad(float value){
+    value *= 2.0;
+    float inc = 1.0;
+    float eased = 0.0;
+    float stepper = step(1.0, value);
+    eased += (0.5 * value * value) * (1.0 - stepper);
+    value--;
+    eased += (-0.5 * (value * (value - 2.0) - 1.0)) * stepper;
+    return clamp(eased, 0.0, 1.0);
 }
 
 float getTimeLoop(float maxTime){
@@ -75,9 +86,8 @@ float getPingPongTimeLoop(float maxTime){
 void main(){
   vec2 st = gl_FragCoord.xy / u_resolution.xy;
 
-
-  float normTime = getPingPongTimeLoop(1.0);
-  float easing   = inoutExp(normTime);
+  float normTime = getPingPongTimeLoop(0.5);
+  float easing   = inoutquad(normTime);
 
   //scale
   float size  = 0.5 + easing * 2.0;

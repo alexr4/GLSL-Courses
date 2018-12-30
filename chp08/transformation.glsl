@@ -52,11 +52,11 @@ vec2 scale(vec2 st, vec2 scale){
 void main(){
   vec2 st = gl_FragCoord.xy / u_resolution.xy;
 
-  float x           = sin(u_time * 2.0) * 0.45;
+  float x           = cos(u_time * 2.0) * 0.25;
   vec2 translate    = vec2(x, 0.0);
 
   //translate struct /* name */
-  st += translate;
+  st = st + translate;
 
   //rotate
   st = rotate(st, u_time);
@@ -69,5 +69,6 @@ void main(){
   float rectsmooth  = rectangleSmooth(st, vec2(0.5), vec2(0.35), vec2(0.005));
 
   vec3 color = vec3(rectsmooth);
-  gl_FragColor = vec4(color, 1.0);
+  vec3 debug = vec3(st, 0.0);
+  gl_FragColor = vec4(color + debug, 1.0);
 }
