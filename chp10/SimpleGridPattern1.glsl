@@ -106,13 +106,19 @@ void main(){
   //get the nearest integer less than or equals to the new space coordinate to get the index i,j of the cell
   vec2 ist = floor(nst);
 
+  //check if the cell index is even or odd
+  float index = floor(ist.x + ist.y * (colsrows.x + 1.0));//the index into the grid
+  float modIndex = mod(index, 2.0);
+  float isEven = step(1.0, modIndex);
+
   //normalize index and remap it to 1.0 → 0.0 → 1.0
   vec2 nist  = (ist / (colsrows - 1.0)) * 2.0 - 1.0;
   float dist = length(nist);
   dist = pow(dist, u_mouse.x * 10.0);
   fst = scale(fst, vec2(1.0) + vec2(0.5 * dist));
-  float rect = circleSmooth(fst, vec2(0.5), 0.45, 0.05);
+  float circ = circleSmooth(fst, vec2(0.5), 0.45, 0.05);
+  float rect = rectangleSmooth(fst, vec2(0.5), vec2(1.1), vec2(0.05));
 
-  vec3 color = vec3(rect);
+  vec3 color = vec3(rect) * isEven + vec3(circ) * (1.0 - isEven);
   gl_FragColor = vec4(color, 1.0);
 }

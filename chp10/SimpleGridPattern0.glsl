@@ -86,22 +86,18 @@ float getPingPongTimeLoop(float maxTime){
 
 void main(){
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
-  st = rotate(st, PI * 0.25);
-
-  //create a sin wave this the cell index
-  float amplitude = 0.05;
-  float frequency = 2.5;
-  float wave = sin(st.x * PI * frequency) + sin((st.y * 2.0 - 1.0) * PI * 2.0);
-  st.y += wave * amplitude;
-  st.x += u_time * 0.25;
+  float pptime  = getPingPongTimeLoop(8.0);
+  float pptimex = getPingPongTimeLoop(4.0);
+  float pptimey = getPingPongTimeLoop(2.0);
+  float eased   = inoutquad(pptime);
+  float easedx  = inoutquad(pptimex);
+  float easedy  = inoutquad(pptimey);
 
   //define a vector with the number of desired columns and rows for your pattern
-  vec2 colsrows = vec2(2.0, 25.0);
+  vec2 colsrows = vec2(5.0, 5.0);
 
-  float modRow    = mod(st.y * colsrows.y, colsrows.y);
-  float offsetx   = floor(modRow) / colsrows.y;
-  vec2 offsetMod  = vec2(offsetx, 0.0);
-  st += offsetMod;
+  //offset the x in order to create a birck like effet
+  st.x += mod(floor(st.y * colsrows.y), 2.0) * 0.5;
 
   //multiply the pixel coordinate with the colsrows vector t scale the space coordinate system from 0.0 to 1.0 to 0.0 to colsrows
   vec2 nst = st * colsrows;
@@ -110,9 +106,9 @@ void main(){
   //get the nearest integer less than or equals to the new space coordinate to get the index i,j of the cell
   vec2 ist = floor(nst);
 
-  float rect = rectangleSmooth(fst, vec2(0.5), vec2(0.8, 0.5), vec2(0.01));
+  fst = rotate(fst, PI * 2.0 * eased);
+  float rect = rectangleSmooth(fst, vec2(0.5), vec2(1.1) * (1.0 - vec2(easedx, easedy)), vec2(0.01));
 
-  float shadow = wave * 0.25 + 0.75;
-  vec3 color = vec3(rect * shadow);
+  vec3 color = vec3(rect);
   gl_FragColor = vec4(color, 1.0);
 }

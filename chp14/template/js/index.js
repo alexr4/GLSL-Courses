@@ -4,12 +4,8 @@ var stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.getElementById('stats-container').appendChild(stats.domElement);
 
-var main = document.getElementById('main');
-var infos = document.getElementById('infos');
 var context = document.getElementById('experiment');
-var title = document.getElementById('title');
 
-var ratio = 1.0;
 
 var camera, scene, renderer;
 var uniforms;
@@ -32,7 +28,7 @@ function init() {
 		u_time: { type: "f", value: 1.0 },
 		u_resolution: { type: "v2", value: new THREE.Vector2() },
 		u_mouse: { type: "v2", value: new THREE.Vector2() },
-		u_colsrows: { type: "v2", value: new THREE.Vector2() }
+		//u_colsrows: { type: "v2", value: new THREE.Vector2() }
 	};
 
 	//create THREE.JS material
@@ -55,8 +51,8 @@ function init() {
         mouse = getMousePos(renderer.domElement, evt);
   }, false);
 
-  uniforms.u_colsrows.value.x = 80;
-	uniforms.u_colsrows.value.y = 80;
+  //uniforms.u_colsrows.value.x = 80;
+	//uniforms.u_colsrows.value.y = 80;
 }
 
 function render() {
@@ -85,9 +81,8 @@ function animate() {
 }
 
 function resizeElements(){
-  let mainHeight = infos.offsetHeight;
-	canvasWidth = mainHeight;
-	canvasHeight = mainHeight;
+	canvasWidth = window.innerHeight * 0.75;
+	canvasHeight = canvasWidth;
 
 	renderer.setSize(canvasWidth, canvasHeight);
   uniforms.u_resolution.value.x = canvasWidth;

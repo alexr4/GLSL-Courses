@@ -44,8 +44,8 @@ void main(){
   vec2 ist = floor(nst);
 
   vec2 inc = vec2(0.0, floor(u_time * 4.0));
-  float randPerCell = noise(nst + inc);
-  randPerCell = smoothstep(0.5, 0.65, randPerCell);
+  float randPerCell = noise(ist * 0.5 + inc);
+  //randPerCell = smoothstep(0.5, 0.65, randPerCell);
 
   vec3 color = vec3(randPerCell);
   gl_FragColor = vec4(color, 1.0);

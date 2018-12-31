@@ -38,16 +38,16 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * * [X] Scale
 * [x] **chp9**: Easing animation
 * * [x] Using shaping function to ease your animations
-* [ ] **chp10**: Pattern : multiplying your shapes
+* [x] **chp10**: Pattern : multiplying your shapes
 * * [x] Creating a grid using ```fract``` and ```floor```
 * * [x] Manipulating the pattern using cell index
-* [ ] **chp11**: Pattern : deforming the grid
+* [x] **chp11**: Pattern : deforming the grid
 * * [x] using sin wave to animate and deform your pattern
-* [ ] **chp12**: Adding randomness : chaos
+* [x] **chp12**: Adding randomness : chaos
 * * [x] Create a random function
-* [ ] **chp13**: Adding randomness : noise
+* [x] **chp13**: Adding randomness : noise
 * * [x] Create a simple noise function
-* [ ] **chp14**: Add shader to you webpage
+* [x] **chp14**: Add shader to you webpage
 * * [x] Create a basic HTML template
 * * [x] Using three.js to import and play your shader
 * * [x] Add and bind variables to your shaders
