@@ -42,3 +42,5 @@ mat2(scale.x, 0.0,
 * For that we will write two function. The first one will handle our matrix creation and the second one will handle the scaling operation.
 * You can notice that the scaling operation has the same construction as the rotation operation. Which is offseting the origin to the center of the screen, scaling the shape then reset its position
 * Now you can try the differents transformation operations with differents value. Try for example to rotate an object around a point (for example the mouse position) or scale the object according its position.
+
+https://paper.dropbox.com/doc/Transformation-2D--AUxdtoqJ96nJ9qFmJHYUWOP5AQ-EGyFbRYDESOBGxDd3l4C6

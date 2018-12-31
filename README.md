@@ -7,8 +7,8 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * * [ ] Global Introduction
 * * [ ] What is GLSL and how it can be used on a webpage
 * * [ ] Creating an animated pattern : the brief
-* [ ] **chp1**: What is a shader and how it work
-* * [ ] GPU vs CPU computation
+* [x] **chp1**: What is a shader and how it work
+* * [x] GPU vs CPU computation
 * [x] **chp2**: Discovering fragment shader : A world from 0 to 1
 * * [x] Underlying concept of a fragment shader (macro, variable and main function)
 * * [x] Main variable type in GLSL
@@ -54,7 +54,7 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * * [x] Add and bind variables to your shaders
 * [ ] **chp15**: Going beyond your limit
 * * [ ] Conclusion
-* * [ ] How to find ressources on fragment sahder
+* * [ ] How to find ressources on fragment shader
 * * [ ] Using shader outside the web (Unity3D, Processing, OFX...)
-* * [ ] Sharing your project with other using codepen or sahdertoy
+* * [ ] Sharing your project with other using codepen or shadertoy
 * * [ ] Beyond pattern...what can we do with fragment shader
