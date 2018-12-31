@@ -16,10 +16,10 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * * [x] Install language-glsl package for shader programming highlight in Atom
 * * [x] Install/using glsl-preview package for shader live programming in Atom
 * * [x] Global uniform variable tu used with glsl-preview
-* [ ] **chp4**: Basic shaping function in GLSL
+* [x] **chp4**: Basic shaping function in GLSL
 * * [x] gl_FragCoord
-* * [ ] Comparision and interpolation using ```step``` and ```smoothstep```
-* * [ ] Basic maths function (sin, cosine, mod, fract...)
+* * [x] Comparision and interpolation using ```step``` and ```smoothstep```
+* * [x] Basic maths function (sin, cosine, mod, fract...)
 * * [x] Creating your own shaping function
 * [X] **chp5**: Using color
 * * [X] Color normalized system
@@ -50,8 +50,8 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * [x] **chp14**: Add shader to you webpage
 * * [x] Create a basic HTML template
 * * [x] Using three.js to import and play your shader
-* * [x] Add and bind variables to your shaders
 * * [x] Add mouse interactivity
+* * [x] Add and bind variables to your shaders
 * [ ] **chp15**: Going beyond your limit
 * * [ ] Conclusion
 * * [ ] How to find ressources on fragment sahder

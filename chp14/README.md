@@ -52,4 +52,9 @@
 * We will only update the second one, the fragment shader tag. You can copy/paste your latest shader here and test your program.
 * You will notice I used a new package, the live-sever package in order to have a live server running on my computer. This simulate a server on atom and assure anything works well.
 
-# 
+# Add and bind variable to your shader
+* The last part we need in order to manipulate our shader from our javascript program is to know how to add and bind variables from the javascript to the shader. For example, we can set the colsrows vector as a variable in order to change it from the javascript side.
+* The first step to do that is to declare a new variable into the uniform object in the ```init()``` function. We will name it 'u_colsrows' as uniform colsrows.
+* This variable is a vector 2 so we set its type as a v2, we can also define its value into a new THREE.Vector2(20, 20)
+* Don't forget to add your variable as a uniform vec2 with the same name 'u_colsrows' into your shader program. We can now replace our colsrows definition in the main function of our shader by this new uniform variable.
+* You can now change your variable at anytime by redefining	uniforms.u_colsrows.value.x and uniforms.u_colsrows.value.y. For example in the ```resizeElement``` function

@@ -28,7 +28,7 @@ function init() {
 		u_time: { type: "f", value: 1.0 },
 		u_resolution: { type: "v2", value: new THREE.Vector2() },
 		u_mouse: { type: "v2", value: new THREE.Vector2() },
-		//u_colsrows: { type: "v2", value: new THREE.Vector2() }
+		u_colsrows: { type: "v2", value: new THREE.Vector2(20, 20) }
 	};
 
 	//create THREE.JS material
@@ -51,8 +51,6 @@ function init() {
         mouse = getMousePos(renderer.domElement, evt);
   }, false);
 
-  //uniforms.u_colsrows.value.x = 80;
-	//uniforms.u_colsrows.value.y = 80;
 }
 
 function render() {
@@ -87,6 +85,11 @@ function resizeElements(){
 	renderer.setSize(canvasWidth, canvasHeight);
   uniforms.u_resolution.value.x = canvasWidth;
 	uniforms.u_resolution.value.y = canvasHeight;
+
+	var randCol = Math.random() * 60;
+	var newcolsrows = 20.0 + randCol;
+	uniforms.u_colsrows.value.x = newcolsrows;
+	uniforms.u_colsrows.value.y = newcolsrows
 }
 
 var addEvent = function(object, type, callback) {
