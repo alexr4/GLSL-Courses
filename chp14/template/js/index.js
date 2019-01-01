@@ -4,9 +4,8 @@ var stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.getElementById('stats-container').appendChild(stats.domElement);
 
+
 var context = document.getElementById('experiment');
-
-
 var camera, scene, renderer;
 var uniforms;
 var startTime;
