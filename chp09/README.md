@@ -13,6 +13,6 @@
 * So now our value does not only goes from 0.0 to one but we have a perfect loop where the value ping pong between 0.0 and 1.0.
 * If we use our value as a scaling multiplier, we will get a bouncing square, but without any easing. Because the time is linear we notice that the square seems to stop and start again at each edge of the value.
 * We will try to modulate this looping value by using our inoutquad function we wrote earlier.
-* If we pass our new value to our size variable we will notice that square as now a nice speed up and slow down effect on its bounce. 
-* You can try to implement differents easing effect with with the link I gave you earlier in order to find the perfect one for your animations
+* If we pass our new value to our size variable we will notice that square as now a nice speed up and slow down effect on its bounce.
+* You can try to implement differents easing effects with the link I gave you earlier in order to find the perfect one for your animations
 * I've also implemented and in out exponential function you can try to see the difference between two easing functions.

@@ -3,10 +3,8 @@
 Introduction to fragment shader programming using GLSL language and WebGL technologies
 
 ## Courses
-* [ ] **chp0**: Welcome to pixel world : Introduction
-* * [ ] Global Introduction
-* * [ ] What is GLSL and how it can be used on a webpage
-* * [ ] Creating an animated pattern : the brief
+* [X] **chp0**: Welcome to pixel world : Introduction
+* * [X] Video introduction
 * [x] **chp1**: What is a shader and how it work
 * * [x] GPU vs CPU computation
 * [x] **chp2**: Discovering fragment shader : A world from 0 to 1
@@ -31,7 +29,7 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * * [x] Ellipse
 * [x] **chp7**: Drawing complexe shape with function
 * * [x] Polygon (3, 4, 5...edges)
-* * [x] Modulationg radius
+* * [x] Modulating radius
 * [x] **chp8**: Matrix transformation : Rotate, translate and scale
 * * [X] Translation
 * * [X] Rotation
@@ -52,9 +50,5 @@ Introduction to fragment shader programming using GLSL language and WebGL techno
 * * [x] Using three.js to import and play your shader
 * * [x] Add mouse interactivity
 * * [x] Add and bind variables to your shaders
-* [ ] **chp15**: Going beyond your limit
-* * [ ] Conclusion
-* * [ ] How to find ressources on fragment shader
-* * [ ] Using shader outside the web (Unity3D, Processing, OFX...)
-* * [ ] Sharing your project with other using codepen or shadertoy
-* * [ ] Beyond pattern...what can we do with fragment shader
+* [x] **chp15**: Going beyond your limit
+* * [X] Conclusion (video)

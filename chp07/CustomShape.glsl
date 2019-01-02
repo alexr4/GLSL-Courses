@@ -10,7 +10,7 @@ float shape(vec2 st, int nbEdges, float size){
   vec2 toCenter = vec2(0.5) - st;
   //get angle of the pixel coordinate
   //atant will return a value between -PI and PI
-  float angle   = atan(toCenter.x, toCenter.y);
+  float angle   = atan(toCenter.y, toCenter.x) + PI;
   float radius  = (PI * 2.0) / float(nbEdges);
 
   //modulate the distance to define the shape
@@ -23,7 +23,7 @@ float shapeSmooth(vec2 st, int nbEdges, float size, float smoothness){
   vec2 toCenter = vec2(0.5) - st;
   //get angle of the pixel coordinate
   //atant will return a value between -PI and PI
-  float angle   = atan(toCenter.x, toCenter.y) + PI;
+  float angle   = atan(toCenter.y, toCenter.x) + PI;
   float radius  = (PI * 2.0) / float(nbEdges);
 
   //modulate the distance to define the shape

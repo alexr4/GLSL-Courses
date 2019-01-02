@@ -22,7 +22,7 @@ void main(){
 
   vec2 toCenter   = vec2(0.5) - st;
   float radius    = length(toCenter);
-  float angle     = atan(toCenter.x, toCenter.y);
+  float angle     = atan(toCenter.y, toCenter.x);
 
   float offset    = abs(sin(angle * 2.0 - PI * u_time ) * cos(angle * 4.0 + PI * u_time) * sin(u_time + angle * 8.0)) ;
 
