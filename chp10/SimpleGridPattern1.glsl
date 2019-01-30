@@ -1,3 +1,8 @@
+/**
+this example show you how to use the indices of the pattern to modify the shape drawn on each cell.
+It also show you how to use the mouse as an interactive input
+*/
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -60,39 +65,6 @@ vec2 scale(vec2 st, vec2 scale){
   return st;
 }
 
-float inoutexp(float value){
-  float nvalue = value * 2.0;
-  float inc = 1.0;
-  float eased = 0.0;
-  float stepper = step(1.0, value);
-  eased += (0.5 * pow(2.0, 10.0 * (nvalue - 1.0))) * (1.0 - stepper);
-  value--;
-  eased += (0.5 * (-pow(2.0, -10.0 * (nvalue - 1.0)) + 2.0)) * stepper;
-
-  return (value == 0.0 || value == 1.0) ? value : clamp(eased, 0.0, 1.0);
-}
-
-float inoutquad(float value){
-    value *= 2.0;
-    float inc = 1.0;
-    float eased = 0.0;
-    float stepper = step(1.0, value);
-    eased += (0.5 * value * value) * (1.0 - stepper);
-    value--;
-    eased += (-0.5 * (value * (value - 2.0) - 1.0)) * stepper;
-    return clamp(eased, 0.0, 1.0);
-}
-
-float getTimeLoop(float maxTime){
-  float modTime    = mod(u_time, maxTime);
-  float normTime   = modTime / maxTime;
-  return normTime;
-}
-
-float getPingPongTimeLoop(float maxTime){
-  float normTime = getTimeLoop(maxTime);
-  return abs(normTime * 2.0 - 1.0);
-}
 
 void main(){
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
@@ -107,18 +79,23 @@ void main(){
   vec2 ist = floor(nst);
 
   //check if the cell index is even or odd
-  float index = floor(ist.x + ist.y * (colsrows.x + 1.0));//the index into the grid
+  float index = floor(ist.x + ist.y * (colsrows.x + 1.0)); //the index of the cell into the grid
+  //The modulo of the index with 2.0 will return 0.0 if the index is even and 1.0 if the index is odd
   float modIndex = mod(index, 2.0);
-  float isEven = step(1.0, modIndex);
+  //Check if the index is even/odd
+  float isOdd = step(1.0, modIndex);
 
   //normalize index and remap it to 1.0 → 0.0 → 1.0
   vec2 nist  = (ist / (colsrows - 1.0)) * 2.0 - 1.0;
-  float dist = length(nist);
-  dist = pow(dist, u_mouse.x * 10.0);
-  fst = scale(fst, vec2(1.0) + vec2(0.5 * dist));
+  float dist = length(nist); //return the length of the vector nist, which is the distance from the origin (0.0, 0.0)
+  dist = pow(dist, u_mouse.x * 10.0); // power the distance this the mouse input
+  fst = scale(fst, vec2(1.0) + vec2(0.5 * dist));//scale the cell according the computed distance
+
+  //compute shapes
   float circ = circleSmooth(fst, vec2(0.5), 0.45, 0.05);
   float rect = rectangleSmooth(fst, vec2(0.5), vec2(1.1), vec2(0.05));
 
-  vec3 color = vec3(rect) * isEven + vec3(circ) * (1.0 - isEven);
+  //draw shape (rectangle if odd and circle if even)
+  vec3 color = vec3(rect) * isOdd + vec3(circ) * (1.0 - isOdd);
   gl_FragColor = vec4(color, 1.0);
 }

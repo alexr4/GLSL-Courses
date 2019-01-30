@@ -121,8 +121,11 @@ float noise(vec2 st){
 
 void main(){
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
+  //define the time of the animation
   float maxTime = 8.0;
+  //define a time loop
   float normTime = getTimeLoop(maxTime);
+  //remap the linera time loop into a in out curved time loop in order to get a nice easing effect
   normTime = inoutquad(normTime);
 
   vec2 colsrows = vec2(50.0, 50.0);
@@ -133,18 +136,26 @@ void main(){
   //get the nearest integer less than or equals to the new space coordinate to get the index i,j of the cell
   vec2 ist = floor(nst);
 
+  //get the normalize time passed in order to change pattern at each new loop
   float ftime = floor(u_time / maxTime);
   vec2 inc = vec2(0.0, ftime);
+  //defines noise for each cell (depending on indice and time loop)
   float randPerCell = noise(ist * 0.25 + inc);
+  //define is the cell has to be drawn or not depending on random
   float randCellShown = step(0.5, randPerCell);
 
+  //define the normalized index from the column and row indices (for more information you can read the great pixel manipulation tutorial from Daniel Shiffman on processing.org https://processing.org/tutorials/pixels/)
   float normIndexOfCell = floor(ist.x + (colsrows.y - 1.0 - ist.y) * colsrows.x) / (colsrows.x * colsrows.y);
+  //Use a step to increment the cell to be shown on screen along the animation time
   float isShown = step(normIndexOfCell, normTime);
 
+  //define if the cell is a rectangle or a circle
   float randShape = step(0.75, randPerCell);
+  //draw shapes (circle if the random if between 0.75 and 1.0 and rectangle is not)
   float shape = circleSmooth(fst, vec2(0.5), 0.25, 0.05) * randShape +
                 rectangleSmooth(fst, vec2(0.5), vec2(0.5), vec2(0.05)) * (1.0 - randShape);
 
+  //draw all shapes
   vec3 color = vec3(shape * randCellShown * isShown);
   gl_FragColor = vec4(color, 1.0);
 }

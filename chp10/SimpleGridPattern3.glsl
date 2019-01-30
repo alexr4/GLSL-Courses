@@ -1,3 +1,7 @@
+/**
+animated example using the index of the cell
+*/
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -50,52 +54,26 @@ vec2 scale(vec2 st, vec2 scale){
   return st;
 }
 
-float inoutexp(float value){
-  float nvalue = value * 2.0;
-  float inc = 1.0;
-  float eased = 0.0;
-  float stepper = step(1.0, value);
-  eased += (0.5 * pow(2.0, 10.0 * (nvalue - 1.0))) * (1.0 - stepper);
-  value--;
-  eased += (0.5 * (-pow(2.0, -10.0 * (nvalue - 1.0)) + 2.0)) * stepper;
-
-  return (value == 0.0 || value == 1.0) ? value : clamp(eased, 0.0, 1.0);
-}
-
-float inoutquad(float value){
-    value *= 2.0;
-    float inc = 1.0;
-    float eased = 0.0;
-    float stepper = step(1.0, value);
-    eased += (0.5 * value * value) * (1.0 - stepper);
-    value--;
-    eased += (-0.5 * (value * (value - 2.0) - 1.0)) * stepper;
-    return clamp(eased, 0.0, 1.0);
-}
-
-float getTimeLoop(float maxTime){
-  float modTime    = mod(u_time, maxTime);
-  float normTime   = modTime / maxTime;
-  return normTime;
-}
-
-float getPingPongTimeLoop(float maxTime){
-  float normTime = getTimeLoop(maxTime);
-  return abs(normTime * 2.0 - 1.0);
-}
 
 void main(){
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
+  //rotate the fragment coordinates from the center
   st = rotate(st, PI * 0.15);
+  //increment it by the time in order to get a "sliding/infinte translation" effect
   st.x += u_time * 0.25;
 
   //define a vector with the number of desired columns and rows for your pattern
   vec2 colsrows = vec2(5.0, 15.0);
 
+  //The modulo of the index.y with 2.0 will return 0.0 if the index is even and 1.0 if the index is odd
   float modRow    = mod(st.y * colsrows.y, 2.0);
-  float offsetx   = step(1.0, modRow) * 0.5;
+  //check is the index.y is odd or even is order to offset one row on two
+  float offsetx   = step(1.0, modRow);
+  //define the amplitude of the speed variation
   float amplitude = 0.5;
+  //define the based offset for each row on two
   vec2 offsetMod  = vec2(offsetx * amplitude, 0.0);
+  //define the speed offset for each row on two
   vec2 offsetTime = vec2(offsetx * u_time * 0.25, 0.0);
   st += offsetMod;
   st += offsetTime;

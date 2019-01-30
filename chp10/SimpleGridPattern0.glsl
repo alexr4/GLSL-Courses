@@ -1,3 +1,7 @@
+/**
+This example show you how to use transformation on pattern and shapes
+*/
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -50,35 +54,19 @@ vec2 scale(vec2 st, vec2 scale){
   return st;
 }
 
-float inoutexp(float value){
-  float nvalue = value * 2.0;
-  float inc = 1.0;
-  float eased = 0.0;
-  float stepper = step(1.0, value);
-  eased += (0.5 * pow(2.0, 10.0 * (nvalue - 1.0))) * (1.0 - stepper);
-  value--;
-  eased += (0.5 * (-pow(2.0, -10.0 * (nvalue - 1.0)) + 2.0)) * stepper;
-
-  return (value == 0.0 || value == 1.0) ? value : clamp(eased, 0.0, 1.0);
-}
-
-float inoutquad(float value){
-    value *= 2.0;
-    float inc = 1.0;
-    float eased = 0.0;
-    float stepper = step(1.0, value);
-    eased += (0.5 * value * value) * (1.0 - stepper);
-    value--;
-    eased += (-0.5 * (value * (value - 2.0) - 1.0)) * stepper;
-    return clamp(eased, 0.0, 1.0);
-}
-
+/**
+this function will return a time loop between 0.0 and the max time
+*/
 float getTimeLoop(float maxTime){
   float modTime    = mod(u_time, maxTime);
   float normTime   = modTime / maxTime;
   return normTime;
 }
 
+/**
+This function will return a oscillating time value from 0 to 1.0 to 0.0
+during a specific max time
+*/
 float getPingPongTimeLoop(float maxTime){
   float normTime = getTimeLoop(maxTime);
   return abs(normTime * 2.0 - 1.0);
@@ -89,9 +77,6 @@ void main(){
   float pptime  = getPingPongTimeLoop(8.0);
   float pptimex = getPingPongTimeLoop(4.0);
   float pptimey = getPingPongTimeLoop(2.0);
-  float eased   = inoutquad(pptime);
-  float easedx  = inoutquad(pptimex);
-  float easedy  = inoutquad(pptimey);
 
   //define a vector with the number of desired columns and rows for your pattern
   vec2 colsrows = vec2(5.0, 5.0);
@@ -106,8 +91,10 @@ void main(){
   //get the nearest integer less than or equals to the new space coordinate to get the index i,j of the cell
   vec2 ist = floor(nst);
 
-  fst = rotate(fst, PI * 2.0 * eased);
-  float rect = rectangleSmooth(fst, vec2(0.5), vec2(1.1) * (1.0 - vec2(easedx, easedy)), vec2(0.01));
+  //rotate each cell along the time loop
+  fst = rotate(fst, PI * 2.0 * pptime);
+  //draw shape with a variation on the thickness according time loops
+  float rect = rectangleSmooth(fst, vec2(0.5), vec2(1.1) * (1.0 - vec2(pptimex, pptimey)), vec2(0.01));
 
   vec3 color = vec3(rect);
   gl_FragColor = vec4(color, 1.0);

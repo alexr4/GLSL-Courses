@@ -60,18 +60,6 @@ vec2 scale(vec2 st, vec2 scale){
   return st;
 }
 
-float inoutexp(float value){
-  float nvalue = value * 2.0;
-  float inc = 1.0;
-  float eased = 0.0;
-  float stepper = step(1.0, value);
-  eased += (0.5 * pow(2.0, 10.0 * (nvalue - 1.0))) * (1.0 - stepper);
-  value--;
-  eased += (0.5 * (-pow(2.0, -10.0 * (nvalue - 1.0)) + 2.0)) * stepper;
-
-  return (value == 0.0 || value == 1.0) ? value : clamp(eased, 0.0, 1.0);
-}
-
 float inoutquad(float value){
     value *= 2.0;
     float inc = 1.0;
@@ -100,10 +88,14 @@ float random (vec2 st) {
 
 void main(){
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
+  //define the time of the animation
   float maxTime = 8.0;
+  //define a time loop
   float normTime = getTimeLoop(maxTime);
+  //remap the linera time loop into a in out curved time loop in order to get a nice easing effect
   normTime = inoutquad(normTime);
 
+  //define the numbers of cells
   vec2 colsrows = vec2(50.0, 50.0);
   //multiply the pixel coordinate with the colsrows vector t scale the space coordinate system from 0.0 to 1.0 to 0.0 to colsrows
   vec2 nst = st * colsrows;
@@ -112,18 +104,26 @@ void main(){
   //get the nearest integer less than or equals to the new space coordinate to get the index i,j of the cell
   vec2 ist = floor(nst);
 
+  //get the normalize time passed in order to change pattern at each new loop
   float ftime = floor(u_time / maxTime);
   vec2 inc = vec2(0.0, ftime);
+  //defines random for each cell (depending on indice and time loop)
   float randPerCell = random(ist + inc);
+  //define is the cell has to be drawn or not depending on random
   float randCellShown = step(0.5, randPerCell);
 
+  //define the normalized index from the column and row indices (for more information you can read the great pixel manipulation tutorial from Daniel Shiffman on processing.org https://processing.org/tutorials/pixels/)
   float normIndexOfCell = floor(ist.x + (colsrows.y - 1.0 - ist.y) * colsrows.x) / (colsrows.x * colsrows.y);
+  //Use a step to increment the cell to be shown on screen along the animation time
   float isShown = step(normIndexOfCell, normTime);
 
+  //define if the cell is a rectangle or a circle
   float randShape = step(0.75, randPerCell);
+  //draw shapes (circle if the random if between 0.75 and 1.0 and rectangle is not)
   float shape = circleSmooth(fst, vec2(0.5), 0.25, 0.05) * randShape +
                 rectangleSmooth(fst, vec2(0.5), vec2(0.5), vec2(0.05)) * (1.0 - randShape);
 
+  //draw all shapes
   vec3 color = vec3(shape * randCellShown * isShown);
   gl_FragColor = vec4(color, 1.0);
 }

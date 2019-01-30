@@ -1,3 +1,7 @@
+/**
+animated example using the distance of the cell from the center
+*/
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -50,35 +54,19 @@ vec2 scale(vec2 st, vec2 scale){
   return st;
 }
 
-float inoutexp(float value){
-  float nvalue = value * 2.0;
-  float inc = 1.0;
-  float eased = 0.0;
-  float stepper = step(1.0, value);
-  eased += (0.5 * pow(2.0, 10.0 * (nvalue - 1.0))) * (1.0 - stepper);
-  value--;
-  eased += (0.5 * (-pow(2.0, -10.0 * (nvalue - 1.0)) + 2.0)) * stepper;
-
-  return (value == 0.0 || value == 1.0) ? value : clamp(eased, 0.0, 1.0);
-}
-
-float inoutquad(float value){
-    value *= 2.0;
-    float inc = 1.0;
-    float eased = 0.0;
-    float stepper = step(1.0, value);
-    eased += (0.5 * value * value) * (1.0 - stepper);
-    value--;
-    eased += (-0.5 * (value * (value - 2.0) - 1.0)) * stepper;
-    return clamp(eased, 0.0, 1.0);
-}
-
+/**
+this function will return a time loop between 0.0 and the max time
+*/
 float getTimeLoop(float maxTime){
   float modTime    = mod(u_time, maxTime);
   float normTime   = modTime / maxTime;
   return normTime;
 }
 
+/**
+This function will return a oscillating time value from 0 to 1.0 to 0.0
+during a specific max time
+*/
 float getPingPongTimeLoop(float maxTime){
   float normTime = getTimeLoop(maxTime);
   return abs(normTime * 2.0 - 1.0);
@@ -87,7 +75,6 @@ float getPingPongTimeLoop(float maxTime){
 void main(){
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
   float pptime = getPingPongTimeLoop(4.0);
-  float eased  = inoutquad(pptime);
 
   //define a vector with the number of desired columns and rows for your pattern
   vec2 colsrows = vec2(5.0, 5.0);
@@ -100,17 +87,24 @@ void main(){
 
   //normalize index and remap it to 1.0 → 0.0 → 1.0
   vec2 nist  = abs(ist / (colsrows - 1.0)) * 2.0 - 1.0;
-  float dist = length(nist) + 0.5;
+  float dist = length(nist) + 0.5; // get the distance from origin (0.0)
 
-  vec2 s0fst = rotate(fst, (PI * dist) * eased);
-  s0fst = scale(s0fst, eased * vec2(4.0 * dist));
+  //create a new cell fragment coordinate using a rotation along distance and time
+  vec2 s0fst = rotate(fst, (PI * dist) * pptime);
+  //scale it along distance and time
+  s0fst = scale(s0fst, pptime * vec2(4.0 * dist));
+  //draw the first rectangle
   float rect0 = rectangleSmooth(s0fst, vec2(0.5), vec2(1.0), vec2(0.01));
 
 
-  vec2 s1fst = rotate(fst, (-PI * dist) * eased);
-  s1fst = scale(s1fst, eased * vec2(4.0 * dist));
-  float rect1 = rectangleSmooth(s1fst, vec2(0.5), vec2(1.0) * (1.0 - eased), vec2(0.01));
+  //create a new cell fragment coordinate using a rotation along distance and time
+  vec2 s1fst = rotate(fst, (-PI * dist) * pptime);
+  //scale it along distance and time
+  s1fst = scale(s1fst, pptime * vec2(4.0 * dist));
+  //draw the second rectangle
+  float rect1 = rectangleSmooth(s1fst, vec2(0.5), vec2(1.0) * (1.0 - pptime), vec2(0.01));
 
+  //draw the first rectangle - the second one
   vec3 color = vec3(rect0 - rect1);
   gl_FragColor = vec4(color, 1.0);
 }

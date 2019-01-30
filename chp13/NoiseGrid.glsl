@@ -112,7 +112,7 @@ float noise(vec2 st){
 void main(){
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
   //define a vector with the number of desired columns and rows for your pattern
-  vec2 colsrows = vec2(5.0, 5.0);
+  vec2 colsrows = vec2(80.0, 80.0);
 
   //multiply the pixel coordinate with the colsrows vector t scale the space coordinate system from 0.0 to 1.0 to 0.0 to colsrows
   vec2 nst = st * colsrows;
@@ -121,11 +121,15 @@ void main(){
   //get the nearest integer less than or equals to the new space coordinate to get the index i,j of the cell
   vec2 ist = floor(nst);
 
+  //define a noise value depending on the cell indices and time
   float noiseCellAngle = noise(ist * 0.15 + u_time);
+  //define a angle between 0.0 and 2*PI based on the noise
   float angle          = noiseCellAngle * PI * 2.0;
+  //rotate the cell
   fst = rotate(fst, angle);
-  float rect        = rectangleSmooth(fst, vec2(0.5), vec2(0.85, 0.1), vec2(0.01));
+  //draw the shape
+  float rect        = rectangleSmooth(fst, vec2(0.5), vec2(0.85, 0.2), vec2(0.05));
 
-  vec3 color = vec3(rect);
+  vec3 color = vec3(rect * (noiseCellAngle * 0.75 + 0.25));
   gl_FragColor = vec4(color, 1.0);
 }

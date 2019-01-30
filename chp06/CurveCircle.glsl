@@ -1,3 +1,7 @@
+/**
+This example show you how to deform the fragment coordinate in order to draw a simple oscillating shape
+*/
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -5,35 +9,22 @@ precision mediump float;
 uniform vec2 u_resolution;
 uniform float u_time;
 
+/*
+Function for drawing a circle as float (1.0 if the pixel is inside the circle, 0.0 if it is outside)
+st is the fragment coordinate to test, center is the center of the shape and radius the size of the circle (radius)
+*/
 float circle(vec2 st, vec2 center, float radius){
-  float distFromCenter = length(center - st);
+  float distFromCenter = distance(center, st);
   return 1.0 - step(radius, distFromCenter);
 }
 
+/*
+Function for drawing a smoothed circle as float (1.0 if the pixel is inside the circle, 0.0 if it is outside)
+st is the fragment coordinate to test, center is the center of the shape and radius the size of the circle (radius)
+smoothness  define the blurryness of the shape
+*/
 float circleSmooth(vec2 st, vec2 center, float radius, float smoothness){
-  float distFromCenter = length(center - st);
-  return 1.0 - smoothstep(radius - smoothness * 0.5, radius + smoothness * 0.5, distFromCenter);
-}
-
-float ellipse(vec2 st, vec2 center, float radius, vec2 aspectRatio){
-  //first we map the st cordinate from 0.0 to 1.0 to -1.0 to 1.0
-  st = st * 2.0 - 1.0;
-  //we divide the coordinate by the ellipse aspect ratio to get the redesired radius on x and y
-  vec2 nst = st / aspectRatio;
-  //we remap the new coordinate from 0.0 to 1.0
-  nst = nst * 0.5 + 0.5;
-  float distFromCenter = length(center - nst);
-  return 1.0 - step(radius, distFromCenter);
-}
-
-float ellipseSmooth(vec2 st, vec2 center, float radius, vec2 aspectRatio, float smoothness){
-  //first we map the st cordinate from 0.0 to 1.0 to -1.0 to 1.0
-  st = st * 2.0 - 1.0;
-  //we divide the coordinate by the ellipse aspect ratio to get the redesired radius on x and y
-  vec2 nst = st / aspectRatio;
-  //we remap the new coordinate from 0.0 to 1.0
-  nst = nst * 0.5 + 0.5;
-  float distFromCenter = length(center - nst);
+  float distFromCenter = distance(center, st);
   return 1.0 - smoothstep(radius - smoothness * 0.5, radius + smoothness * 0.5, distFromCenter);
 }
 
@@ -41,10 +32,14 @@ float ellipseSmooth(vec2 st, vec2 center, float radius, vec2 aspectRatio, float 
 void main(){
   vec2 st = gl_FragCoord.xy / u_resolution.xy;
 
-  float offset      = cos((st.x + st.y + u_time * 0.25) * 3.14159265359 * 4.0);
-  float amplitude   = 0.015;
+  //offset and amplitude define the osccilation of the shape. It is a cosine wave
+  float offset      = cos((st.x + st.y + u_time * 0.25) * 3.14159265359 * 4.0); //cosine wave
+  float amplitude   = 0.015;//amplitude (height) of the wave
+
+  //the main idea in order to deform the shape is to use the cosine wave as an increment of the radius and the smoothness
+  //This will return an oscillating shape where radius and smothness change along the wave
   float circsmooth = circleSmooth(st, vec2(0.5), 0.35 + offset * amplitude, 0.015 + offset * amplitude * 0.5);
-  //remap offset from -1.0 to 1.0 to 0.5 to 1.0
+  //remap offset from -1.0 to 1.0 to 0.5 to 1.0 in order to simulate a shadow
   float shadow      = (offset * 0.25 + 0.75);
   vec3 color = vec3(circsmooth * shadow);
 

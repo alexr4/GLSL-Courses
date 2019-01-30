@@ -15,7 +15,7 @@ float random(vec2 st) {
     return fract(sin(dot(st.xy, vec2(12.9898,78.233)))*43758.5453123);
 }
 
-//noise from Morgan McGuire
+//noise algorithme from Morgan McGuire
 //https://www.shadertoy.com/view/4dS3Wd
 float noise(vec2 st){
   vec2 ist = floor(st);
@@ -40,6 +40,7 @@ void main(){
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
   vec2 colsrows = vec2(10.0, 10.0);
 
+  //noise algorithm simulation
   float x = st.x *40.;
   float ix = floor(x);
   float fx = fract(x);
@@ -47,6 +48,7 @@ void main(){
   float rand1 =  random(ix + 1.0);
   float smoothRand = mix(rand0, rand1, fx);
 
+  //noise function
   float noise = noise(st * colsrows);
   vec3 color = vec3(noise);
   gl_FragColor = vec4(color, 1.0);

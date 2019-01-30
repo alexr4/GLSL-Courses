@@ -5,35 +5,23 @@ precision mediump float;
 uniform vec2 u_resolution;
 uniform float u_time;
 
+/*
+Function for drawing a circle as float (1.0 if the pixel is inside the circle, 0.0 if it is outside)
+st is the fragment coordinate to test, center is the center of the shape and radius the size of the circle (radius)
+*/
 float circle(vec2 st, vec2 center, float radius){
-  float distFromCenter = length(center - st);
+  //The main idea behind circle is to compute the distance between the fragment coordinate and the center of the circle. If it is beyond the radius then the fragment is outisde the circleSmooth
+  float distFromCenter = distance(center, st);
   return 1.0 - step(radius, distFromCenter);
 }
 
+/*
+Function for drawing a smoothed circle as float (1.0 if the pixel is inside the circle, 0.0 if it is outside)
+st is the fragment coordinate to test, center is the center of the shape and radius the size of the circle (radius)
+smoothness  define the blurryness of the shape
+*/
 float circleSmooth(vec2 st, vec2 center, float radius, float smoothness){
-  float distFromCenter = length(center - st);
-  return 1.0 - smoothstep(radius - smoothness * 0.5, radius + smoothness * 0.5, distFromCenter);
-}
-
-float ellipse(vec2 st, vec2 center, float radius, vec2 aspectRatio){
-  //first we map the st cordinate from 0.0 to 1.0 to -1.0 to 1.0
-  st = st * 2.0 - 1.0;
-  //we divide the coordinate by the ellipse aspect ratio to get the redesired radius on x and y
-  vec2 nst = st / aspectRatio;
-  //we remap the new coordinate from 0.0 to 1.0
-  nst = nst * 0.5 + 0.5;
-  float distFromCenter = length(center - nst);
-  return 1.0 - step(radius, distFromCenter);
-}
-
-float ellipseSmooth(vec2 st, vec2 center, float radius, vec2 aspectRatio, float smoothness){
-  //first we map the st cordinate from 0.0 to 1.0 to -1.0 to 1.0
-  st = st * 2.0 - 1.0;
-  //we divide the coordinate by the ellipse aspect ratio to get the redesired radius on x and y
-  vec2 nst = st / aspectRatio;
-  //we remap the new coordinate from 0.0 to 1.0
-  nst = nst * 0.5 + 0.5;
-  float distFromCenter = length(center - nst);
+  float distFromCenter = distance(center, st);
   return 1.0 - smoothstep(radius - smoothness * 0.5, radius + smoothness * 0.5, distFromCenter);
 }
 
@@ -43,7 +31,6 @@ void main(){
 
   float circ = circle(st, vec2(0.5), 0.35);
   float circsmooth = circleSmooth(st, vec2(0.5), 0.35, 0.05);
-  //float ellipse = ellipseSmooth(st, vec2(0.5), 0.35, vec2(1.0, 0.5), 0.05);
 
   vec3 color = vec3(circsmooth);
 

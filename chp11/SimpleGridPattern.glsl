@@ -50,58 +50,25 @@ vec2 scale(vec2 st, vec2 scale){
   return st;
 }
 
-float inoutexp(float value){
-  float nvalue = value * 2.0;
-  float inc = 1.0;
-  float eased = 0.0;
-  float stepper = step(1.0, value);
-  eased += (0.5 * pow(2.0, 10.0 * (nvalue - 1.0))) * (1.0 - stepper);
-  value--;
-  eased += (0.5 * (-pow(2.0, -10.0 * (nvalue - 1.0)) + 2.0)) * stepper;
-
-  return (value == 0.0 || value == 1.0) ? value : clamp(eased, 0.0, 1.0);
-}
-
-float inoutquad(float value){
-    value *= 2.0;
-    float inc = 1.0;
-    float eased = 0.0;
-    float stepper = step(1.0, value);
-    eased += (0.5 * value * value) * (1.0 - stepper);
-    value--;
-    eased += (-0.5 * (value * (value - 2.0) - 1.0)) * stepper;
-    return clamp(eased, 0.0, 1.0);
-}
-
-float getTimeLoop(float maxTime){
-  float modTime    = mod(u_time, maxTime);
-  float normTime   = modTime / maxTime;
-  return normTime;
-}
-
-float getPingPongTimeLoop(float maxTime){
-  float normTime = getTimeLoop(maxTime);
-  return abs(normTime * 2.0 - 1.0);
-}
-
 void main(){
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
-  st = rotate(st, PI * 0.25);
+//  st = rotate(st, PI * 0.25);
 
   //create a sin wave this the cell index
-  float amplitude = 0.05;
-  float frequency = 2.5;
-  float wave = sin(st.x * PI * frequency) + sin((st.y * 2.0 - 1.0) * PI * 2.0);
-  st.y += wave * amplitude;
-  st.x += u_time * 0.25;
+  float amplitude = 0.05;//define the height of the wave
+  float frequency = 4.5; //define the number of oscillation along the wave
+  float wave = sin(st.x * PI * frequency); //get the sin wave
+  st.y += wave * amplitude; //offset the fragment coordinate on y axis by the wave
+  st.x += u_time * 0.25;//offset the fragment coordinate on x axis by the time for animation
 
   //define a vector with the number of desired columns and rows for your pattern
-  vec2 colsrows = vec2(2.0, 25.0);
-
-  float modRow    = mod(st.y * colsrows.y, colsrows.y);
-  float offsetx   = floor(modRow) / colsrows.y;
-  vec2 offsetMod  = vec2(offsetx, 0.0);
-  st += offsetMod;
+  vec2 colsrows = vec2(5.0, 10.0);
+  //offset each row on two to get rid of the repitition
+  float modRow    = mod(floor(st.y * colsrows.y), 2.0);
+  float isEven    = step(1.0, modRow);// check if the row index is odd or even
+  //define the offset for each row on two
+  vec2 offsetMod  = vec2(.5, 0.0);
+  st += offsetMod * isEven;
 
   //multiply the pixel coordinate with the colsrows vector t scale the space coordinate system from 0.0 to 1.0 to 0.0 to colsrows
   vec2 nst = st * colsrows;
@@ -112,7 +79,6 @@ void main(){
 
   float rect = rectangleSmooth(fst, vec2(0.5), vec2(0.8, 0.5), vec2(0.01));
 
-  float shadow = wave * 0.25 + 0.75;
-  vec3 color = vec3(rect * shadow);
+  vec3 color = vec3(rect);
   gl_FragColor = vec4(color, 1.0);
 }

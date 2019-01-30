@@ -192,6 +192,7 @@ void main(){
   float whiteShape = shape * randomGrey * randCellShown * isShown;
   whiteShape = clamp(whiteShape, 0.0, 1.0);
 
+  //Color interaction with mouse
   float distToMouse = smoothstep(0.0, 1.0, length(u_mouse - st)) * 2.0;
   float noiseghue = noise(st * 4.0) * 0.5;
   float hue = random(inc);

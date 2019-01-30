@@ -1,3 +1,7 @@
+/**
+This example show how to use random value in order to create a particles line effetc
+*/
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -50,42 +54,11 @@ vec2 scale(vec2 st, vec2 scale){
   return st;
 }
 
-float inoutexp(float value){
-  float nvalue = value * 2.0;
-  float inc = 1.0;
-  float eased = 0.0;
-  float stepper = step(1.0, value);
-  eased += (0.5 * pow(2.0, 10.0 * (nvalue - 1.0))) * (1.0 - stepper);
-  value--;
-  eased += (0.5 * (-pow(2.0, -10.0 * (nvalue - 1.0)) + 2.0)) * stepper;
-
-  return (value == 0.0 || value == 1.0) ? value : clamp(eased, 0.0, 1.0);
-}
-
-float inoutquad(float value){
-    value *= 2.0;
-    float inc = 1.0;
-    float eased = 0.0;
-    float stepper = step(1.0, value);
-    eased += (0.5 * value * value) * (1.0 - stepper);
-    value--;
-    eased += (-0.5 * (value * (value - 2.0) - 1.0)) * stepper;
-    return clamp(eased, 0.0, 1.0);
-}
-
-float getTimeLoop(float maxTime){
-  float modTime    = mod(u_time, maxTime);
-  float normTime   = modTime / maxTime;
-  return normTime;
-}
-
-float getPingPongTimeLoop(float maxTime){
-  float normTime = getTimeLoop(maxTime);
-  return abs(normTime * 2.0 - 1.0);
-}
-
+/*
+This function will return a random number between 0.0 and 1.0 at a specific coordinate xy (random with more variation)
+*/
 float random (vec2 st) {
-    return fract(sin(dot(st.xy, vec2(12.9898,78.233)))*43758.5453123);
+    return fract(sin(dot(st.xy, vec2(10.9898,78.233)))*43758.5453123);
 }
 
 void main(){
@@ -94,9 +67,13 @@ void main(){
   //define a vector with the number of desired columns and rows for your pattern
   vec2 colsrows = vec2(5.0, 25.0);
 
+  //get the index for each row
   vec2  randPerRow       = vec2(floor(st.y * colsrows.y));
+  //define a random value form each row
   float randomOffset     = random(randPerRow);
+  //define a speed from the random value
   float randomSpeed      = randomOffset * 2.0 + 0.5 ;
+  //offset each row with a random speed
   st.x += randomOffset + u_time * randomSpeed;
 
 
@@ -107,10 +84,16 @@ void main(){
   //get the nearest integer less than or equals to the new space coordinate to get the index i,j of the cell
   vec2 ist = floor(nst);
 
+  //get a random value for each cell
   float randPerCell = random(ist);
+  //define if the cell has to be drawn depending on the random value per cell
   float isDrawn     = step(0.5, randPerCell);
+  //define a random width for each shape depending on the random value per cell
   float randwidth   = randPerCell * 0.5 + 0.25;
+  //define a random height for each shape depending on a new the random value per cell define by the inverted indices
   float randheight  = random(ist.yx) * 0.5 + 0.25;
+
+  //draw the rectangle
   float rect        = rectangleSmooth(fst, vec2(0.5), vec2(randwidth, randheight), vec2(0.01));
 
   vec3 color = vec3(rect * isDrawn);
